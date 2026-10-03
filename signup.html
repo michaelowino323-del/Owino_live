@@ -50,6 +50,12 @@
       background: #ff3b81;
       color: white;
       font-size: 16px;
+      cursor: pointer;
+    }
+
+    #message {
+      margin-top: 15px;
+      text-align: center;
     }
   </style>
 </head>
@@ -62,20 +68,75 @@
 
     <h2>Create Account</h2>
 
-    <form>
+    <form id="signupForm">
+
       <label>Username</label>
-      <input type="text" placeholder="Choose username" required>
+      <input id="username" type="text" placeholder="Choose username" required>
 
       <label>Email</label>
-      <input type="email" placeholder="Enter email" required>
+      <input id="email" type="email" placeholder="Enter email" required>
 
       <label>Password</label>
-      <input type="password" placeholder="Create password" required>
+      <input id="password" type="password" placeholder="Create password" required>
 
       <button type="submit">Create Account</button>
+
+      <div id="message"></div>
+
     </form>
 
   </div>
 
+  <script>
+    const SUPABASE_URL = https://owtgzvvvnbmxtricerid.supabase.co/rest/v1/
+    const SUPABASE_KEY = sb_publishable_8hOxB_sRLTTolDEZvrrZ_Q_PpBQntXN
+
+    document.getElementById("signupForm").addEventListener("submit", async function(event) {
+
+      event.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+
+      message.textContent = "Creating your account...";
+
+      try {
+
+        const response = await fetch(
+          SUPABASE_URL + "/auth/v1/signup",
+          {
+            method: "POST",
+            headers: {
+              "apikey": SUPABASE_KEY,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password,
+              data: {
+                username: username
+              }
+            })
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          message.textContent = result.msg || result.message || "Signup failed.";
+          return;
+        }
+
+        message.textContent = "Account created successfully!";
+
+      } catch (error) {
+        message.textContent = "Connection error. Please try again.";
+      }
+
+    });
+  </script>
+
 </body>
-</html/<
+</html>
