@@ -1,0 +1,152 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #08080b;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+}
+
+nav {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6%;
+  border-bottom: 1px solid #202027;
+  background: #0b0b0f;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-links a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.hero {
+  padding: 100px 8%;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(circle at 80% 30%, #5c164d 0, transparent 35%),
+    #08080b;
+}
+
+.badge {
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: #ff4fa3;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: clamp(42px, 8vw, 78px);
+  line-height: 1;
+  margin: 20px 0;
+}
+
+.description {
+  max-width: 600px;
+  color: #aaa;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.buttons {
+  display: flex;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.buttons a {
+  padding: 14px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.primary {
+  background: #ff3d91;
+  color: white;
+}
+
+.secondary {
+  background: #22222a;
+  color: white;
+}
+
+.streams {
+  padding: 50px 6%;
+}
+
+.streams h2 {
+  font-size: 30px;
+}
+
+.stream-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.stream-card {
+  background: #121218;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.thumbnail {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #292934;
+  color: #ff3d91;
+  font-weight: bold;
+}
+
+.stream-card h3,
+.stream-card p {
+  margin-left: 16px;
+}
+
+.stream-card p {
+  color: #888;
+}
+
+@media (max-width: 700px) {
+  nav {
+    padding: 0 20px;
+  }
+
+  .nav-links {
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .hero {
+    padding: 70px 25px;
+  }
+
+  .stream-grid {
+    grid-template-columns: 1fr;
+  }
+}
