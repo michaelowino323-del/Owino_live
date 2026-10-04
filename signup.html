@@ -92,47 +92,40 @@
     <form id="signupForm">
 
       <label>Username</label>
-      <input
-        id="username"
-        type="text"
-        placeholder="Choose username"
-        required
-      >
+      <input id="username" type="text"
+        placeholder="Choose username" required>
 
       <label>Email</label>
-      <input
-        id="email"
-        type="email"
-        placeholder="Enter email"
-        required
-      >
+      <input id="email" type="email"
+        placeholder="Enter email" required>
 
       <label>Password</label>
-      <input
-        id="password"
-        type="password"
+      <input id="password" type="password"
         placeholder="Create password"
-        minlength="6"
-        required
-      >
+        minlength="6" required>
 
-      <button type="submit">
-        Create Account
-      </button>
+      <button type="submit">Create Account</button>
 
       <div id="message"></div>
 
     </form>
 
-    <a class="back" href="index.html">
-      ← Back to Home
-    </a>
+    <a class="back" href="index.html">← Back to Home</a>
 
   </div>
+
+  <!-- Supabase library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script src="supabase-config.js"></script>
 
   <script>
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
     document
       .getElementById("signupForm")
@@ -152,51 +145,39 @@
         const message =
           document.getElementById("message");
 
-        message.textContent = "Creating your account...";
+        message.textContent =
+          "Creating your account...";
 
-        try {
+        const { data, error } =
+          await supabaseClient.auth.signUp({
 
-          const response = await fetch(
-            SUPABASE_URL + "/auth/v1/signup",
-            {
-              method: "POST",
+            email: email,
 
-              headers: {
-                "apikey": SUPABASE_KEY,
-                "Content-Type": "application/json"
-              },
+            password: password,
 
-              body: JSON.stringify({
-                email: email,
-                password: password,
-                data: {
-                  username: username
-                }
-              })
+            options: {
+              data: {
+                username: username
+              }
             }
-          );
 
-          const result = await response.json();
+          });
 
-          if (!response.ok) {
-            message.textContent =
-              result.msg ||
-              result.message ||
-              "Unable to create account.";
-            return;
-          }
+        if (error) {
 
           message.textContent =
-            "Account created successfully!";
+            error.message;
 
-          document.getElementById("signupForm").reset();
-
-        } catch (error) {
-
-          message.textContent =
-            "Connection error. Please try again.";
+          return;
 
         }
+
+        message.textContent =
+          "Account created successfully!";
+
+        document
+          .getElementById("signupForm")
+          .reset();
 
       });
 
