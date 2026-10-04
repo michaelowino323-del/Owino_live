@@ -24,6 +24,7 @@
       background: #151520;
       padding: 30px;
       border-radius: 15px;
+      box-sizing: border-box;
     }
 
     h1 {
@@ -57,6 +58,14 @@
       margin-top: 15px;
       text-align: center;
     }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #ff3b81;
+      text-decoration: none;
+    }
   </style>
 </head>
 
@@ -71,71 +80,109 @@
     <form id="signupForm">
 
       <label>Username</label>
-      <input id="username" type="text" placeholder="Choose username" required>
+      <input
+        id="username"
+        type="text"
+        placeholder="Choose username"
+        required
+      >
 
       <label>Email</label>
-      <input id="email" type="email" placeholder="Enter email" required>
+      <input
+        id="email"
+        type="email"
+        placeholder="Enter email"
+        required
+      >
 
       <label>Password</label>
-      <input id="password" type="password" placeholder="Create password" required>
+      <input
+        id="password"
+        type="password"
+        placeholder="Create password"
+        required
+      >
 
-      <button type=<a href="signup.html" class="signup-btn">Sign Up</a>
+      <button type="submit">Create Account</button>
 
       <div id="message"></div>
 
     </form>
 
+    <a class="back" href="index.html">Back to Home</a>
+
   </div>
 
   <script>
-    const SUPABASE_URL = https://owtgzvvvnbmxtricerid.supabase.co/rest/v1/
+
+    const SUPABASE_URL = "https://owtgzvvvnbmxtricerid.supabase.co";
+    
     const SUPABASE_KEY = sb_publishable_8hOxB_sRLTTolDEZvrrZ_Q_PpBQntXN
 
-    document.getElementById("signupForm").addEventListener("submit", async function(event) {
+    document
+      .getElementById("signupForm")
+      .addEventListener("submit", async function(event) {
 
-      event.preventDefault();
+        event.preventDefault();
 
-      const username = document.getElementById("username").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const message = document.getElementById("message");
+        const username =
+          document.getElementById("username").value.trim();
 
-      message.textContent = "Creating your account...";
+        const email =
+          document.getElementById("email").value.trim();
 
-      try {
+        const password =
+          document.getElementById("password").value;
 
-        const response = await fetch(
-          SUPABASE_URL + "/auth/v1/signup",
-          {
-            method: "POST",
-            headers: {
-              "apikey": SUPABASE_KEY,
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              email: email,
-              password: password,
-              data: {
-                username: username
-              }
-            })
+        const message =
+          document.getElementById("message");
+
+        message.textContent = "Creating your account...";
+
+        try {
+
+          const response = await fetch(
+            SUPABASE_URL + "/auth/v1/signup",
+            {
+              method: "POST",
+
+              headers: {
+                "apikey": SUPABASE_KEY,
+                "Content-Type": "application/json"
+              },
+
+              body: JSON.stringify({
+                email: email,
+                password: password,
+                data: {
+                  username: username
+                }
+              })
+            }
+          );
+
+          const result = await response.json();
+
+          if (!response.ok) {
+            message.textContent =
+              result.msg ||
+              result.message ||
+              "Signup failed.";
+            return;
           }
-        );
 
-        const result = await response.json();
+          message.textContent =
+            "Account created successfully!";
 
-        if (!response.ok) {
-          message.textContent = result.msg || result.message || "Signup failed.";
-          return;
+        } catch (error) {
+
+          message.textContent =
+            "Connection error. Please try again.";
+
         }
 
-        message.textContent = "Account created successfully!";
+      });
 
-      } catch (error) {
-        message.textContent = "Connection error. Please try again.";
-      }
-
-    });
   </script>
 
 </body>
