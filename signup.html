@@ -118,7 +118,68 @@
 
   <script src="supabase-config.js"></script>
 
-  <script> 
+  <script> <script src="supabase-config.js"></script>
+
+<script>
+
+document.getElementById("signupForm").addEventListener("submit", async function(event) {
+
+  event.preventDefault();
+
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("message");
+
+  message.textContent = "Creating your account...";
+
+  try {
+
+    const response = await fetch(
+      SUPABASE_URL + "/auth/v1/signup",
+      {
+        method: "POST",
+
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          data: {
+            username: username
+          }
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      message.textContent =
+        result.msg ||
+        result.message ||
+        "Signup failed.";
+      return;
+    }
+
+    message.textContent =
+      "Account created successfully!";
+
+    document.getElementById("signupForm").reset();
+
+  } catch (error) {
+
+    message.textContent =
+      "Connection error: " + error.message;
+
+  }
+
+});
+
+</script>
 
     document
       .getElementById("signupForm")
