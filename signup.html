@@ -165,12 +165,14 @@
 
         if (error) {
 
-          message.textContent =
-            error.message;
+  alert("SUPABASE ERROR: " + error.message);
 
-          return;
+  message.textContent =
+    error.message;
 
-        }
+  return;
+
+}
 
         message.textContent =
           "Account created successfully!";
